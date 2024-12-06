@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+EV Charger Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project is an EV Charger Infrastructure mobile app that allows users to view a map with EV charger locations, search for specific chargers, and capture screenshots of the map to upload to their Google Drive.
 
-## Get started
+Current Features
 
-1. Install dependencies
+1. Map View
+- Displays a map using `react-native-maps` with dynamic markers for EV chargers.
+- Fetches and displays the user's current location.
 
-   ```bash
-   npm install
-   ```
+2. Search Functionality
+- Includes a search bar for finding specific EV chargers by name or details.
+- Implements functionality for clearing the search query and dismissing the keyboard.
 
-2. Start the app
+3. Screenshot Capture
+- Users can take a screenshot of the map view by pressing the floating action button (FAB).
+- The screenshot will be converted to `.webp` format using `expo-image-manipulator`.
 
-   ```bash
-    npx expo start
-   ```
+4. Google Drive Upload
+- Authenticates users with their Google account using `expo-auth-session` and `expo-google-auth-session`.
+- After authentication, uploads the screenshot directly to the user’s Google Drive.
 
-In the output, you'll find options to open the app in a
+Dependencies
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+The following libraries and modules are being used to implement the current functionality:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. `react-native-maps`  
+   - For rendering the map and displaying markers.
 
-## Get a fresh project
+2. `react-native-view-shot`  
+   - To capture a screenshot of the map view.
 
-When you're ready, run:
+3. `expo-image-manipulator`  
+   - For converting the captured screenshot to `.webp` format.
 
-```bash
-npm run reset-project
-```
+4. `expo-auth-session`  
+   - For implementing OAuth2-based Google authentication.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+5. `expo-google-auth-session`  
+   - To handle Google-specific authentication flows.
 
-## Learn more
+Development Environment
 
-To learn more about developing your project with Expo, look at the following resources:
+- Framework: React Native (using Expo Dev Client for hot reloading).  
+- Development Build: Expo Dev Build has been initialized to enable hot reloading and use native modules.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Next Steps
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1. Implement the functionality to convert the captured screenshot into `.webp` format using `expo-image-manipulator`.
+2. Integrate Google Drive API for uploading the converted screenshot to the user’s Google Drive.
+3. Test end-to-end functionality, including map interaction, screenshot capture, and Google Drive upload.
+4. Create a release build (APK) for Android devices.

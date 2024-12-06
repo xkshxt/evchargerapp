@@ -15,6 +15,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.xkshxt.evchargerapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB15migHvNumBHAxGzbTBUu6hEdaaNlxJw"
+        }
       }
     },
     "web": {
@@ -36,6 +42,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7994fe0a-3cd9-4a3a-b953-85e00e99a14b"
+      }
     }
   }
 }

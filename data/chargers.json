@@ -1,0 +1,45 @@
+{
+    "chargers": [
+      {
+        "name": "ANAND NAGAR",
+        "id": "a001",
+        "address": "Anand metro,Pune",
+        "latitude": 18.50960777142573,
+        "longitude": 73.814001408117,
+        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Normal AC-1"]
+      },
+      {
+        "name": "KARVE STATUE",
+        "id": "b001",
+        "address": "Karve Statue,Pune",
+        "latitude": 18.50340303329424,
+        "longitude": 73.81534212536869,
+        "connector_types": ["Normal AC-1", "Level 1 AC-5"]
+      },
+      {
+        "name": "MIT-WPU",
+        "id": "c001",
+        "address": "MIT WPU,Pune",
+        "latitude": 18.517899015858468,
+        "longitude": 73.81513011694439,
+        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Normal AC-1", "Level 1 AC-5"]
+      },
+      {
+        "name": "SAHYADRI",
+        "id": "d001",
+        "address": "Vanaz, Pune",
+        "latitude": 18.50777653583703,
+        "longitude": 73.80604046321432,
+        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Normal AC-1"]
+      },
+      {
+        "name": "AIRPORT",
+        "id": "e001",
+        "address": "Viman Nagar, Pune",
+        "latitude": 18.57956673292416, 
+        "longitude": 73.90895971512224,
+        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Level 1 AC-5", "Normal AC-1"]
+      }
+    ]
+  }
+  

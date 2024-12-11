@@ -19,9 +19,15 @@
       "package": "com.xkshxt.evchargerapp",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyB15migHvNumBHAxGzbTBUu6hEdaaNlxJw"
+          "apiKey": "AIzaSyAJg11j520lhvYudNzjM6NMn9FYPivmnus"
         }
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -49,6 +55,10 @@
       },
       "eas": {
         "projectId": "7994fe0a-3cd9-4a3a-b953-85e00e99a14b"
+      },
+      "google": {
+        "ClientId": "1073355822548-a5j2ff498mo9vi3u4rlo3gnc19cgmm72.apps.googleusercontent.com",
+        "redirectUri": "https://auth.expo.io/@xkshxt/evchargerapp"
       }
     }
   }

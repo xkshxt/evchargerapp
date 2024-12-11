@@ -17,12 +17,12 @@
         "connector_types": ["Normal AC-1", "Level 1 AC-5"]
       },
       {
-        "name": "MIT-WPU",
+        "name": "MIT ",
         "id": "c001",
         "address": "MIT WPU,Pune",
         "latitude": 18.517899015858468,
         "longitude": 73.81513011694439,
-        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Normal AC-1", "Level 1 AC-5"]
+        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Normal AC-1"]
       },
       {
         "name": "SAHYADRI",
@@ -38,7 +38,7 @@
         "address": "Viman Nagar, Pune",
         "latitude": 18.57956673292416, 
         "longitude": 73.90895971512224,
-        "connector_types": ["Level 1 DC-2", "Level 2 DC-1", "Level 1 AC-5", "Normal AC-1"]
+        "connector_types": ["Level 2 DC-1", "Level 1 AC-5", "Normal AC-1"]
       }
     ]
   }

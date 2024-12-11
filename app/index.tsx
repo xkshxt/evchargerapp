@@ -11,13 +11,15 @@ import {
   Linking,
   Image,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import haversine from "haversine-distance";
 import { FontAwesome } from "@expo/vector-icons";
 import chargerData from "../data/chargers.json";
-import { PROVIDER_GOOGLE } from "react-native-maps";
-
+import { captureRef } from "react-native-view-shot";
+import * as FileSystem from "expo-file-system";
+import * as ImageManipulator from "expo-image-manipulator";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 
 const chargerIcon = require("../assets/image.png");
 
@@ -48,6 +50,21 @@ export default function Index() {
     latitudeDelta: 0.015,
     longitudeDelta: 0.015,
   });
+
+  const discovery = {
+    authorizationEndpoint: "https://accounts.google.com/o/oauth2/auth",
+    tokenEndpoint: "https://oauth2.googleapis.com/token",
+  };
+
+  const redirectUri = "com.xkshxt.evchargerapp://oauth2redirect";
+const [request, response, promptAsync] = useAuthRequest(
+  {
+    clientId: "<1073355822548-a5j2ff498mo9vi3u4rlo3gnc19cgmm72.apps.googleusercontent.com>",
+    scopes: ["https://www.googleapis.com/auth/drive.file"],
+    redirectUri: redirectUri,
+  },
+  discovery
+);
 
   useEffect(() => {
     (async () => {
@@ -120,9 +137,11 @@ export default function Index() {
 
   const openNavigation = (latitude: number, longitude: number) => {
     const url =
-      Platform.OS === "android"
-        ? `google.navigation:q=${latitude},${longitude}`
-        : `http://maps.apple.com/?daddr=${latitude},${longitude}`;
+  Platform.OS === "android"
+    ? `google.navigation:q=${latitude},${longitude}`
+    : `http://maps.apple.com/?daddr=${latitude},${longitude}`;
+
+    console.log("Redirecting to URL:", url); // Log the URL to the console
 
     Linking.openURL(url).catch((err) =>
       console.error("Failed to open navigation", err)
@@ -146,6 +165,69 @@ export default function Index() {
     Keyboard.dismiss(); // Dismiss the keyboard when the clear button is pressed
   };
 
+  const mapRef = React.useRef<MapView>(null);
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { access_token } = response.params;
+      console.log("Access Token:", access_token);
+      // Store the access token in state if needed
+    }
+  }, [response]);
+
+  const handleScreenshot = async () => {
+    try {
+      const uri = await captureRef(mapRef, {
+        format: "png",
+        quality: 1,
+      });
+
+      console.log("Screenshot captured in PNG format:", uri); // Log PNG format
+
+      const manipulatedImage = await ImageManipulator.manipulateAsync(uri, [], {
+        compress: 1,
+        format: ImageManipulator.SaveFormat.WEBP,
+      });
+
+      console.log("Screenshot converted to WEBP format:", manipulatedImage.uri); // Log WEBP format
+
+      // Trigger the OAuth flow
+      const authResult = await promptAsync();
+      if (authResult.type === "success") {
+        uploadToGoogleDrive(manipulatedImage.uri, authResult.params.access_token);
+      } else {
+        console.error("Authentication failed or was cancelled");
+      }
+    } catch (error) {
+      console.error("Screenshot capture failed:", error);
+    }
+  };
+
+  const uploadToGoogleDrive = async (fileUri: string, accessToken: string) => {
+    try {
+      const fileBase64 = await FileSystem.readAsStringAsync(fileUri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      const uploadResponse = await fetch(
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=media",
+        {
+          method: "POST",
+          headers: {
+            Authorization: 'Bearer ${accessToken}',
+            "Content-Type": "image/webp",
+          },
+          body: fileBase64,
+        }
+      );
+
+      const result = await uploadResponse.json();
+      console.log("File uploaded successfully:", result);
+    } catch (error) {
+      console.error("Google Drive upload failed:", error);
+    }
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -176,8 +258,9 @@ export default function Index() {
 
       {location ? (
         <MapView
-          provider={PROVIDER_GOOGLE}
+          ref={mapRef}
           style={styles.map}
+          provider={PROVIDER_GOOGLE}
           region={region}
           onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
           onPress={Keyboard.dismiss}
@@ -273,10 +356,17 @@ export default function Index() {
       {/* Back to My Location Button */}
       <TouchableOpacity
         style={styles.backToLocationButton}
-        onPress={focusOnUserLocation}
-      >
+        onPress={focusOnUserLocation}>
         <FontAwesome name="location-arrow" size={20} color="white" />
       </TouchableOpacity>
+
+      {/* FAB Button */}
+      <TouchableOpacity 
+        style={styles.fab} 
+        onPress={handleScreenshot}>
+        <FontAwesome name="camera" size={20} color="white" />
+      </TouchableOpacity>
+
     </View>
   );
 }
@@ -435,5 +525,17 @@ export default function Index() {
       width: 30,
       height: 35,
       marginRight: 10,
+    },
+    fab: {
+      position: "absolute",
+      bottom: 190,
+      right: 20,
+      backgroundColor: "blue",
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      justifyContent: "center",
+      alignItems: "center",
+      elevation: 5,
     }
   });
